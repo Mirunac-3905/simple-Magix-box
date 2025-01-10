@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+      
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 100px;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.7), 
+        rgba(255, 255, 255, 0.7)
+    ),
+    url("https://img.freepik.com/free-vector/shine-old-wooden-chest-realistic-composition-transparent-background-with-vintage-coffer-sparkling-particles_1284-33071.jpg") no-repeat center center;
+    background-size: cover;
+    color: #333;
+}
+
+
+        h2 {
+            margin-top: 20px;
+            font-size: 2rem;
+            color: #000;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        #guessInput {
+            padding: 10px;
+            font-size: 1rem;
+            margin: 10px;
+            width: 200px;
+            border: 2px solid #d3d3d3;
+            border-radius: 5px;
+            background-color: #4b2e2e;
+            color: #fff;
+        }
+
+        #btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #121111;
+            background-color: #8b6b5e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #btn:hover {
+            background-color: #704b3e;
+        }
+
+        #msg {
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        .images {
+            margin: 30px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .images img {
+            width: 300px;
+            height: auto;
+            transition: transform 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .images img.open {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="images">
+        <img src="https://www.antiquebox.org/wp-content/uploads/2022/01/antique-jewellery-box-01-700x438.jpg" 
+            alt="Closed Box" id="boxImage">
+    </div>
+
+    <h2>Number Guess Game</h2>
+    <p>Guess the number between 1 and 100 to open the box</p>
+    <p id="level">Level: 1</p>
+    <input type="number" id="guessInput" placeholder="Enter your guess...">
+    <button id="btn">Check</button>
+    <p id="msg"></p>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let level = 1;
+
+        document.getElementById('btn').addEventListener('click', function () {
+            const guess = parseInt(document.getElementById('guessInput').value);
+            const boxImage = document.getElementById('boxImage');
+            const message = document.getElementById('msg');
+            const levelDisplay = document.getElementById('level');
+
+            if (guess === randomNumber) {
+                if (level < 5) {
+                    boxImage.src = "https://www.antiquebox.org/wp-content/uploads/2021/10/antique-dressing-case-03-700x438.jpg";
+                    boxImage.classList.add("open");
+                    message.textContent = `Congratulations! You completed Level ${level}. Moving to the next level...`;
+
+                    setTimeout(() => {
+                        boxImage.src = "https://www.antiquebox.org/wp-content/uploads/2022/01/antique-jewellery-box-01-700x438.jpg";
+                        boxImage.classList.remove("open");
+                        randomNumber = Math.floor(Math.random() * 100) + 1; 
+                        level++;
+                        levelDisplay.textContent = `Level: ${level}`;
+                        message.textContent = "Guess the number to open the box again!";
+                    }, 3000);
+                } else {
+                    boxImage.src = "treasure1.JPG";
+                    message.textContent = "Congratulations! You've unlocked the treasure chest!";
+                }
+            } else if (guess < randomNumber) {
+                message.textContent = "Number is too low! Try a higher number.";
+            } else {
+                message.textContent = "Number is too high! Try a lower number.";
+            }
+        });
+    </script>
+</body>
+</html>
